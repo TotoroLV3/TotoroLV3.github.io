@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content>
+  <meta name="author" content="Chan">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="CentOS7搭建Postgres数据库">
+  <meta property="og:description" content="Personal Memo">
+  <meta property="og:site_name" content="Chan&#39;s Space">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="http://yoursite.com">
+  
+    <link rel="alternate" href="/atom.xml" title="Chan&#39;s Space" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>Chan's Space</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/default-banner-dark.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">CentOS7搭建Postgres数据库</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  Home
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  Archives
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/<your-github-username>">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:https://mail.google.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Chan</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2019-04-02</span>
+            <span class="time">18:09:57</span>
+          </span>
+          
+        </div>
+        <!-- Tags -->
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <h3 id="搭建方法"><a href="#搭建方法" class="headerlink" title="搭建方法"></a>搭建方法</h3><ul>
+<li><p>安装参考文章<br><a href="https://blog.csdn.net/qq_32596527/article/details/83624470" target="_blank" rel="noopener">https://blog.csdn.net/qq_32596527/article/details/83624470</a></p>
+</li>
+<li><p>Pg数据库常规命令参考文章<br><a href="https://www.cnblogs.com/zhoujie/p/pgsql.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhoujie/p/pgsql.html</a></p>
+</li>
+</ul>
+<h4 id="服务器配置"><a href="#服务器配置" class="headerlink" title="服务器配置"></a>服务器配置</h4><ol>
+<li><p>修改CentOS网卡IP、DNS,，：<br><code>vim /etc/sysconfig/network-scripts/ifcfg-xxx</code><br>注意 onboot=yes,获取IP Static  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">TYPE=Ethernet</span><br><span class="line">PROXY_METHOD=none</span><br><span class="line">BROWSER_ONLY=no</span><br><span class="line">BOOTPROTO=static</span><br><span class="line">DEFROUTE=yes</span><br><span class="line">IPV4_FAILURE_FATAL=no</span><br><span class="line">IPADDR=192.168.218.133</span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line">GATEWAY=192.168.218.2</span><br><span class="line">DNS1=8.8.8.8</span><br><span class="line">IPV6INIT=yes</span><br><span class="line">IPV6_AUTOCONF=yes</span><br><span class="line">IPV6_DEFROUTE=yes</span><br><span class="line">IPV6_FAILURE_FATAL=no</span><br><span class="line">IPV6_ADDR_GEN_MODE=stable-privacy</span><br><span class="line">NAME=ens33</span><br><span class="line">UUID=c699cbe0-1f50-446c-a2fa-6e3a64fce789</span><br><span class="line">DEVICE=ens33</span><br><span class="line">ONBOOT=yes</span><br><span class="line">ZONE=public</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重启网络</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart network  #重启网络生效</span><br><span class="line">hostnamectl --static set-hostname AAA   #永久修改机器名</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="安装Postgres"><a href="#安装Postgres" class="headerlink" title="安装Postgres"></a>安装Postgres</h4><ol>
+<li>获取下载地址</li>
+</ol>
+<ul>
+<li>官方方法<br>选定操作系统及版本后获取安装地址<br><a href="https://www.postgresql.org/download/linux/redhat/" target="_blank" rel="noopener">https://www.postgresql.org/download/linux/redhat/</a>   </li>
+</ul>
+<ol start="2">
+<li><p>安装<br>例如CentOS7，对应命令为<br><code>yum install https://download.postgresql.org/pub/repos/yum/11/redhat/rhel-7-x86_64/pgdg-centos11-11-2.noarch.rpm</code></p>
+<p> 安装对应包，安装过程中选择 y，确认安装<br><code>yum install postgresql11</code><br><code>yum install postgresql11-server</code>   </p>
+</li>
+<li>初始化数据库<br><code>/usr/pgsql-11/bin/postgresql-11-setup initdb</code><br> 初始化数据后，系统自动创建名为postgres的用户及名为postgres的数据库  </li>
+<li>设置数据库开机启动<br><code>systemctl enable postgresql-11</code>       </li>
+<li>启用数据库<br><code>systemctl start postgresql-11</code> </li>
+<li>开启防火墙端口（CentOS7）</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --zone=public --add-port=5432/tcp --permanent #开启防火墙端口</span><br><span class="line">firewall-cmd --reload  #重启防火墙</span><br><span class="line">firewall-cmd --list-ports #查看开放端口</span><br></pre></td></tr></table></figure>
+<h4 id="postgres操作"><a href="#postgres操作" class="headerlink" title="postgres操作"></a>postgres操作</h4><ol>
+<li><p>登陆postgres<br><code>[root@CentOS-1804-MySQL-4 ~]#su postgres</code><br><code>-bash-4.2$psql -U postgres</code></p>
+</li>
+<li><p>修改密码<br>ALTER USER postgres with encrypted password ‘postgres’</p>
+</li>
+</ol>
+<p>远程访问<br>vim /var/lib/pgsql/11/data/postgresql.conf</p>
+<p>$提示符下<br>创建数据库 createdb database_name<br>删除数据库 dropdb database_name<br>访问数据库 psql database_name</p>
+<p>数据库内操作<br>\l 查看数据库<br>\d 查看表<br>\c 查看当前连接信息<br>\c database_name 切换连接的数据库<br>\q 退出</p>
+<ol start="5">
+<li><h3 id="topic"><a href="#topic" class="headerlink" title="topic"></a>topic</h3><h4 id="section-1"><a href="#section-1" class="headerlink" title="section 1"></a>section 1</h4>this is my firstmarkdown document .By editing this file，I think I can understand few skills of editing markdown file. </li>
+</ol>
+<p>thank u.</p>
+<p><code>this is sigle line code</code></p>
+<p>this is testing code:</p>
+<pre><code>#include a.cc
+#include b.cc
+#include c.aa
+&lt;!-- Container for the OneGoogleBar HTML. --&gt;
+&lt;div id=&quot;one-google&quot; class=&quot;hidden&quot;&gt;&lt;/div&gt;
+</code></pre><ul>
+<li>my website: <a href="https://totorolv3.github.io/" target="_blank" rel="noopener">totorolv3.github.io</a></li>
+</ul>
+<hr>
+<p>2019.3.5</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Theme By <a target="_blank" href="https://github.com/levblanc">Levblanc.</a>
+          Inspired By <a target="_blank" href="https://github.com/klugjo/hexo-theme-clean-blog">Clean Blog.</a>
+        </p><p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
