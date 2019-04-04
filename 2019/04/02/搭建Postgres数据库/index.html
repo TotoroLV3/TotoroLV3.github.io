@@ -100,7 +100,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2019-04-02</span>
-            <span class="time">18:09:57</span>
+            <span class="time">11:09:16</span>
           </span>
           
         </div>
@@ -141,28 +141,17 @@
 <h4 id="postgres操作"><a href="#postgres操作" class="headerlink" title="postgres操作"></a>postgres操作</h4><ol>
 <li><p>登陆postgres<br><code>[root@CentOS-1804-MySQL-4 ~]#su postgres</code><br><code>-bash-4.2$psql -U postgres</code></p>
 </li>
-<li><p>修改密码<br>ALTER USER postgres with encrypted password ‘postgres’</p>
+<li><p>修改密码<br>ALTER USER postgres with encrypted password ‘postgres’  </p>
+</li>
+<li>配置远程访问<br>vim /var/lib/pgsql/11/data/postgresql.conf<br>定位到并修改为 listen_addresses =’*’<br>默认为localhost，并将前部的#去除  </li>
+<li><p>配置访问<br><code>vim /var/lib/pgsql/11/data/pg_hba.conf</code><br>新增一行 host all all 0.0.0.0/0 md5</p>
+</li>
+<li><p>重启数据库<br><code>systemctl restart postgresql-11</code>   </p>
 </li>
 </ol>
-<p>远程访问<br>vim /var/lib/pgsql/11/data/postgresql.conf</p>
-<p>$提示符下<br>创建数据库 createdb database_name<br>删除数据库 dropdb database_name<br>访问数据库 psql database_name</p>
-<p>数据库内操作<br>\l 查看数据库<br>\d 查看表<br>\c 查看当前连接信息<br>\c database_name 切换连接的数据库<br>\q 退出</p>
-<ol start="5">
-<li><h3 id="topic"><a href="#topic" class="headerlink" title="topic"></a>topic</h3><h4 id="section-1"><a href="#section-1" class="headerlink" title="section 1"></a>section 1</h4>this is my firstmarkdown document .By editing this file，I think I can understand few skills of editing markdown file. </li>
-</ol>
-<p>thank u.</p>
-<p><code>this is sigle line code</code></p>
-<p>this is testing code:</p>
-<pre><code>#include a.cc
-#include b.cc
-#include c.aa
-&lt;!-- Container for the OneGoogleBar HTML. --&gt;
-&lt;div id=&quot;one-google&quot; class=&quot;hidden&quot;&gt;&lt;/div&gt;
-</code></pre><ul>
-<li>my website: <a href="https://totorolv3.github.io/" target="_blank" rel="noopener">totorolv3.github.io</a></li>
-</ul>
+<h4 id="数据库内操作"><a href="#数据库内操作" class="headerlink" title="数据库内操作"></a>数据库内操作</h4><p>$提示符下<br>创建数据库 createdb database_name<br>删除数据库 dropdb database_name<br>访问数据库 psql database_name</p>
+<p>\l 查看数据库<br>\d 查看表<br>\c 查看当前连接信息<br>\d 列出所有用户<br>\c database_name 切换连接的数据库<br>\q 退出</p>
 <hr>
-<p>2019.3.5</p>
 
         </div>
       </div>
