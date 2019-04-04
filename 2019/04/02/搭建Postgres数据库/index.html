@@ -100,7 +100,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2019-04-02</span>
-            <span class="time">11:09:16</span>
+            <span class="time">11:48:41</span>
           </span>
           
         </div>
@@ -115,7 +115,7 @@
 </li>
 </ul>
 <h4 id="服务器配置"><a href="#服务器配置" class="headerlink" title="服务器配置"></a>服务器配置</h4><ol>
-<li><p>修改CentOS网卡IP、DNS,，：<br><code>vim /etc/sysconfig/network-scripts/ifcfg-xxx</code><br>注意 onboot=yes,获取IP Static  </p>
+<li><p>修改CentOS网卡IP、DNS,，：<br><code>vim /etc/sysconfig/network-scripts/ifcfg-xxx</code><br>注意 onboot=yes,获取IP方式修改为Static<br><img src="/2019/04/02/搭建Postgres数据库/主机IP配置.png" alt="注意修改配置"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">TYPE=Ethernet</span><br><span class="line">PROXY_METHOD=none</span><br><span class="line">BROWSER_ONLY=no</span><br><span class="line">BOOTPROTO=static</span><br><span class="line">DEFROUTE=yes</span><br><span class="line">IPV4_FAILURE_FATAL=no</span><br><span class="line">IPADDR=192.168.218.133</span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line">GATEWAY=192.168.218.2</span><br><span class="line">DNS1=8.8.8.8</span><br><span class="line">IPV6INIT=yes</span><br><span class="line">IPV6_AUTOCONF=yes</span><br><span class="line">IPV6_DEFROUTE=yes</span><br><span class="line">IPV6_FAILURE_FATAL=no</span><br><span class="line">IPV6_ADDR_GEN_MODE=stable-privacy</span><br><span class="line">NAME=ens33</span><br><span class="line">UUID=c699cbe0-1f50-446c-a2fa-6e3a64fce789</span><br><span class="line">DEVICE=ens33</span><br><span class="line">ONBOOT=yes</span><br><span class="line">ZONE=public</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>重启网络</p>
