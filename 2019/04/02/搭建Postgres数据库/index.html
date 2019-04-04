@@ -100,7 +100,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2019-04-02</span>
-            <span class="time">11:54:22</span>
+            <span class="time">13:50:01</span>
           </span>
           
         </div>
@@ -115,11 +115,10 @@
 </li>
 </ul>
 <h4 id="服务器配置"><a href="#服务器配置" class="headerlink" title="服务器配置"></a>服务器配置</h4><ol>
-<li><p>修改CentOS网卡IP、DNS,，：<br><code>vim /etc/sysconfig/network-scripts/ifcfg-xxx</code><br>注意 onboot=yes,获取IP方式修改为Static<br><img src="/2019/04/02/搭建Postgres数据库/主机IP配置.png" alt="注意修改配置"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">TYPE=Ethernet</span><br><span class="line">PROXY_METHOD=none</span><br><span class="line">BROWSER_ONLY=no</span><br><span class="line">BOOTPROTO=static</span><br><span class="line">DEFROUTE=yes</span><br><span class="line">IPV4_FAILURE_FATAL=no</span><br><span class="line">IPADDR=192.168.218.133</span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line">GATEWAY=192.168.218.2</span><br><span class="line">DNS1=8.8.8.8</span><br><span class="line">IPV6INIT=yes</span><br><span class="line">IPV6_AUTOCONF=yes</span><br><span class="line">IPV6_DEFROUTE=yes</span><br><span class="line">IPV6_FAILURE_FATAL=no</span><br><span class="line">IPV6_ADDR_GEN_MODE=stable-privacy</span><br><span class="line">NAME=ens33</span><br><span class="line">UUID=c699cbe0-1f50-446c-a2fa-6e3a64fce789</span><br><span class="line">DEVICE=ens33</span><br><span class="line">ONBOOT=yes</span><br><span class="line">ZONE=public</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>重启网络</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart network  #重启网络生效</span><br><span class="line">hostnamectl --static set-hostname AAA   #永久修改机器名</span><br></pre></td></tr></table></figure>
+<li>修改CentOS网卡IP、DNS,，：<br><code>vim /etc/sysconfig/network-scripts/ifcfg-xxx</code><br>注意 onboot=yes,获取IP方式修改为Static<br><img src="/2019/04/02/搭建Postgres数据库/主机IP配置.png" alt="注意修改配置">  </li>
+</ol>
+<ol>
+<li>重启网络<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart network  #重启网络生效</span><br><span class="line">hostnamectl --static set-hostname AAA   #永久修改机器名</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <h4 id="安装Postgres"><a href="#安装Postgres" class="headerlink" title="安装Postgres"></a>安装Postgres</h4><ol>
@@ -138,19 +137,14 @@
 <li>开启防火墙端口（CentOS7）</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --zone=public --add-port=5432/tcp --permanent #开启防火墙端口</span><br><span class="line">firewall-cmd --reload  #重启防火墙</span><br><span class="line">firewall-cmd --list-ports #查看开放端口</span><br></pre></td></tr></table></figure>
-<h4 id="postgres操作"><a href="#postgres操作" class="headerlink" title="postgres操作"></a>postgres操作</h4><ol>
-<li><p>登陆postgres<br><code>[root@CentOS-1804-MySQL-4 ~]#su postgres</code><br><code>-bash-4.2$psql -U postgres</code></p>
-</li>
-<li><p>修改密码<br>ALTER USER postgres with encrypted password ‘postgres’  </p>
-</li>
-<li>配置远程访问<br>vim /var/lib/pgsql/11/data/postgresql.conf<br>定位到并修改为 listen_addresses =’*’<br>默认为localhost，并将前部的#去除  </li>
-<li><p>配置访问<br><code>vim /var/lib/pgsql/11/data/pg_hba.conf</code><br>新增一行 host all all 0.0.0.0/0 md5</p>
-</li>
-<li><p>重启数据库<br><code>systemctl restart postgresql-11</code>   </p>
-</li>
+<h4 id="Postgres操作"><a href="#Postgres操作" class="headerlink" title="Postgres操作"></a>Postgres操作</h4><ol>
+<li>登陆postgres<br><code>[root@CentOS-1804-MySQL-4 ~]#su postgres</code><br><code>-bash-4.2$psql -U postgres</code><br><img src="/2019/04/02/搭建Postgres数据库/进入数据库.jpg" alt="进入数据库">  </li>
+<li>修改密码<br>ALTER USER postgres with encrypted password ‘postgres’  </li>
+<li>配置远程访问<br>vim /var/lib/pgsql/11/data/postgresql.conf<br>定位到并修改为 listen_addresses =’*’<br>默认为localhost，并将前部的#去除<br><img src="/2019/04/02/搭建Postgres数据库/修改连接配置.jpg" alt="修改连接配置">  </li>
+<li>配置访问<br><code>vim /var/lib/pgsql/11/data/pg_hba.conf</code><br>新增一行 host all all 0.0.0.0/0 md5<br><img src="/2019/04/02/搭建Postgres数据库/修改连接配置2.jpg" alt="新增一行">  </li>
+<li>重启数据库<br><code>systemctl restart postgresql-11</code>   </li>
 </ol>
-<h4 id="数据库内操作"><a href="#数据库内操作" class="headerlink" title="数据库内操作"></a>数据库内操作</h4><p>$提示符下<br>创建数据库 createdb database_name<br>删除数据库 dropdb database_name<br>访问数据库 psql database_name</p>
-<p>\l 查看数据库<br>\d 查看表<br>\c 查看当前连接信息<br>\d 列出所有用户<br>\c database_name 切换连接的数据库<br>\q 退出</p>
+<h4 id="数据库内操作"><a href="#数据库内操作" class="headerlink" title="数据库内操作"></a>数据库内操作</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">\l 查看数据库</span><br><span class="line">\d 查看表</span><br><span class="line">\c 查看当前连接信息  </span><br><span class="line">\d 列出所有用户</span><br><span class="line">\c database_name 切换连接的数据库</span><br><span class="line">\q 退出</span><br></pre></td></tr></table></figure>
 <hr>
 
         </div>
